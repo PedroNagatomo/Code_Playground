@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  python-executor:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    image: code-playground-python
+    container_name: python-executor
+    mem_limit: 256m
+    cpu_shares: 512
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+
+  node-executor:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    image: code-playground-node
+    container_name: node-executor
+    mem_limit: 256m
+    cpu_shares: 512
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+
+  java-executor:
+    build:
+      context: .
+      dockerfile: Dockerfile.java
+    image: code-playground-java
+    container_name: java-executor
+    mem_limit: 512m
+    cpu_shares: 512
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=200m
+
+  cpp-executor:
+    build:
+      context: .
+      dockerfile: Dockerfile.cpp
+    image: code-playground-cpp
+    container_name: cpp-executor
+    mem_limit: 256m
+    cpu_shares: 512
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m

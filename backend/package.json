@@ -1,0 +1,28 @@
+{
+  "name": "code-playground-backend",
+  "version": "1.0.0",
+  "description": "Multi-language code executor",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.4",
+    "child_process": "^1.0.2",
+    "cors": "^2.8.6",
+    "dockerode": "^3.3.5",
+    "express": "^4.22.1",
+    "fs-extra": "^11.3.3",
+    "socket.io": "^4.8.3",
+    "uuid": "^9.0.1",
+    "vm2": "^3.10.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

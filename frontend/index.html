@@ -1,0 +1,1246 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Playground Pro</title>
+
+    <!-- CodeMirror CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/eclipse.min.css"
+    />
+
+    <!-- CodeMirror MODES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
+    <!-- Para Java e C++ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
+
+    <!-- CodeMirror Addons (novos) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/selection/active-line.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.min.css"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        background-color: #1e1e1e;
+        color: #ffffff;
+        overflow: hidden;
+      }
+
+      .app {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 280px;
+        background-color: #252526;
+        border-right: 1px solid #3e3e42;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        overflow-y: auto;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 30px;
+      }
+
+      .logo i {
+        color: #007acc;
+        font-size: 24px;
+      }
+
+      .language-selector {
+        margin-bottom: 20px;
+      }
+
+      .language-selector label {
+        display: block;
+        margin-bottom: 8px;
+        color: #cccccc;
+        font-size: 14px;
+      }
+
+      .language-dropdown {
+        width: 100%;
+        padding: 10px;
+        background-color: #2d2d2d;
+        color: white;
+        border: 1px solid #3e3e42;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .language-dropdown:hover {
+        border-color: #007acc;
+      }
+
+      .theme-selector {
+        margin-bottom: 20px;
+      }
+
+      .theme-buttons {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .theme-btn {
+        flex: 1;
+        padding: 8px;
+        background-color: #2d2d2d;
+        color: #cccccc;
+        border: 1px solid #3e3e42;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .theme-btn:hover {
+        background-color: #3d3d3d;
+      }
+
+      .theme-btn.active {
+        background-color: #007acc;
+        color: white;
+        border-color: #007acc;
+      }
+
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .btn-run,
+      .btn-save,
+      .btn-clear,
+      .btn-copy {
+        padding: 12px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-run {
+        background-color: #28a745;
+        color: white;
+      }
+
+      .btn-run:hover {
+        background-color: #34ce57;
+        transform: translateY(-1px);
+      }
+
+      .btn-save {
+        background-color: #007acc;
+        color: white;
+      }
+
+      .btn-save:hover {
+        background-color: #0098ff;
+        transform: translateY(-1px);
+      }
+
+      .btn-clear {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      .btn-clear:hover {
+        background-color: #c82333;
+        transform: translateY(-1px);
+      }
+
+      .btn-copy {
+        background-color: #6c757d;
+        color: white;
+      }
+
+      .btn-copy:hover {
+        background-color: #5a6268;
+        transform: translateY(-1px);
+      }
+
+      .file-tree {
+        flex: 1;
+      }
+
+      .file-tree h3 {
+        font-size: 14px;
+        margin-bottom: 15px;
+        color: #cccccc;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .file-tree ul {
+        list-style: none;
+      }
+
+      .file-tree li {
+        padding: 8px 12px;
+        margin-bottom: 4px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        color: #cccccc;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .file-tree li:hover {
+        background-color: #2d2d2d;
+        color: white;
+      }
+
+      .file-tree li i {
+        width: 20px;
+        color: #007acc;
+      }
+
+      /* Main Content */
+      .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .editor-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #3e3e42;
+      }
+
+      .editor-header {
+        padding: 12px 20px;
+        background-color: #252526;
+        border-bottom: 1px solid #3e3e42;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .file-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .file-name {
+        font-size: 14px;
+        color: #cccccc;
+      }
+
+      .language-badge {
+        padding: 4px 12px;
+        background-color: #007acc;
+        border-radius: 12px;
+        font-size: 12px;
+      }
+
+      .editor-stats {
+        display: flex;
+        gap: 15px;
+        color: #cccccc;
+        font-size: 12px;
+      }
+
+      .editor-stats span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      #editor {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .CodeMirror {
+        height: 100%;
+        font-size: 14px;
+        font-family: "Consolas", "Courier New", monospace;
+        line-height: 1.5;
+      }
+
+      .CodeMirror-gutters {
+        background-color: #252526;
+        border-right: 1px solid #3e3e42;
+      }
+
+      .output-container {
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        background-color: #252526;
+      }
+
+      .output-header {
+        padding: 12px 20px;
+        background-color: #2d2d2d;
+        border-top: 1px solid #3e3e42;
+        border-bottom: 1px solid #3e3e42;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .output-tabs {
+        display: flex;
+        gap: 20px;
+      }
+
+      .tab-btn {
+        background: none;
+        border: none;
+        color: #cccccc;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+      }
+
+      .tab-btn:hover {
+        color: white;
+      }
+
+      .tab-btn.active {
+        color: #007acc;
+        border-bottom-color: #007acc;
+      }
+
+      .output-content,
+      .console-content {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        background-color: #1e1e1e;
+        color: #cccccc;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .welcome-message {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: #666;
+      }
+
+      .welcome-message i {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: #007acc;
+      }
+
+      .output-text {
+        margin: 0;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+      .error-container {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .error-message {
+        color: #dc3545;
+        background: rgba(220, 53, 69, 0.1);
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+        font-family: monospace;
+        white-space: pre-wrap;
+      }
+
+      .status-bar {
+        background-color: #007acc;
+        color: white;
+        padding: 4px 20px;
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .status-bar span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #2d2d2d;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #3e3e42;
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #4e4e52;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="logo">
+          <i class="fas fa-code"></i>
+          <span>CodePlay Pro</span>
+        </div>
+
+        <div class="language-selector">
+          <label for="language"><i class="fas fa-code"></i> Linguagem:</label>
+          <select id="language" class="language-dropdown">
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="cpp">C++</option>
+            <option value="html">HTML/CSS</option>
+          </select>
+        </div>
+
+        <div class="theme-selector">
+          <label><i class="fas fa-palette"></i> Tema:</label>
+          <div class="theme-buttons">
+            <button class="theme-btn active" data-theme="dracula">Dark</button>
+            <button class="theme-btn" data-theme="eclipse">Light</button>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button id="runBtn" class="btn-run">
+            <i class="fas fa-play"></i> Executar (F5)
+          </button>
+          <button id="saveBtn" class="btn-save">
+            <i class="fas fa-save"></i> Salvar (Ctrl+S)
+          </button>
+          <button id="copyBtn" class="btn-copy">
+            <i class="fas fa-copy"></i> Copiar
+          </button>
+          <button id="clearBtn" class="btn-clear">
+            <i class="fas fa-trash"></i> Limpar
+          </button>
+        </div>
+
+        <div class="file-tree">
+          <h3><i class="fas fa-folder"></i> Exemplos</h3>
+          <ul id="examplesList">
+            <li data-example="hello-world">
+              <i class="fas fa-code"></i> 👋 Hello World
+            </li>
+            <li data-example="loop"><i class="fas fa-code"></i> 🔄 Loop</li>
+            <li data-example="function">
+              <i class="fas fa-code"></i> ⚡ Função
+            </li>
+            <li data-example="class"><i class="fas fa-code"></i> 📦 Classe</li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="editor-container">
+          <div class="editor-header">
+            <div class="file-info">
+              <span class="file-name" id="fileName">script.js</span>
+              <span class="language-badge" id="currentLang">JavaScript</span>
+            </div>
+            <div class="editor-stats">
+              <span id="lineCount"><i class="fas fa-code"></i> 0 linhas</span>
+              <span id="charCount"
+                ><i class="fas fa-text-height"></i> 0 caracteres</span
+              >
+            </div>
+          </div>
+          <div id="editor"></div>
+        </div>
+
+        <div class="output-container">
+          <div class="output-header">
+            <div class="output-tabs">
+              <button class="tab-btn active" data-tab="output">
+                <i class="fas fa-terminal"></i> Output
+              </button>
+              <button class="tab-btn" data-tab="console">
+                <i class="fas fa-bug"></i> Console
+              </button>
+            </div>
+            <button
+              id="clearOutputBtn"
+              class="btn-clear"
+              style="padding: 6px 12px; width: auto"
+            >
+              <i class="fas fa-eraser"></i> Limpar
+            </button>
+          </div>
+
+          <div id="output" class="output-content">
+            <div class="welcome-message">
+              <i class="fas fa-terminal"></i>
+              <p>Execute seu código para ver resultados</p>
+            </div>
+          </div>
+
+          <div id="console" class="console-content hidden"></div>
+        </div>
+
+        <div class="status-bar">
+          <span
+            ><i class="fas fa-circle" style="color: #28a745"></i> Backend:
+            Conectado</span
+          >
+          <span
+            ><i class="fas fa-clock"></i> <span id="currentTime"></span
+          ></span>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        console.log("🚀 Inicializando Code Playground Pro...");
+
+        const isElectron = window.electronAPI !== undefined;
+        const API_URL = "http://localhost:3001/api";
+
+        let editor = null;
+        let currentLanguage = "javascript";
+
+        // Templates de código
+        const codeTemplates = {
+          javascript: `// JavaScript - Hello World
+function greet(name) {
+    return \`Hello, \${name}!\`;
+}
+
+console.log(greet("CodePlay"));
+console.log("2 + 2 =", 2 + 2);
+
+// Array operations
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+console.log("Doubled:", doubled);`,
+
+          python: `# Python - Hello World
+def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("CodePlay"))
+print(f"2 + 2 = {2 + 2}")
+
+# List operations
+numbers = [1, 2, 3, 4, 5]
+doubled = [n * 2 for n in numbers]
+print(f"Doubled: {doubled}")
+
+# Class example
+class Person:
+    def __init__(self, name):
+        self.name = name
+    
+    def greet(self):
+        return f"Hello, I'm {self.name}"
+
+p = Person("John")
+print(p.greet())`,
+
+          java: `public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, CodePlay!");
+        System.out.println("2 + 2 = " + (2 + 2));
+        
+        // Array operations
+        int[] numbers = {1, 2, 3, 4, 5};
+        System.out.print("Doubled: ");
+        for(int n : numbers) {
+            System.out.print((n * 2) + " ");
+        }
+        System.out.println();
+        
+        // Method example
+        System.out.println("Sum: " + add(10, 20));
+    }
+    
+    public static int add(int a, int b) {
+        return a + b;
+    }
+}`,
+
+          cpp: `#include <iostream>
+#include <vector>
+using namespace std;
+
+int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    cout << "Hello, CodePlay!" << endl;
+    cout << "2 + 2 = " << 2 + 2 << endl;
+    
+    // Vector operations
+    vector<int> numbers = {1, 2, 3, 4, 5};
+    cout << "Doubled: ";
+    for(int n : numbers) {
+        cout << n * 2 << " ";
+    }
+    cout << endl;
+    
+    cout << "Sum: " << add(10, 20) << endl;
+    
+    return 0;
+}`,
+
+          html: `<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; 
+            font-family: Arial; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        h1 { color: #fff; }
+        button {
+            padding: 12px 24px;
+            background: white;
+            color: #764ba2;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🎨 HTML Preview</h1>
+        <p>Funcionando no Electron!</p>
+        <button onclick="alert('Hello from HTML!')">Clique aqui</button>
+    </div>
+</body>
+</html>`,
+        };
+
+        // Exemplos
+        const examples = {
+          "hello-world": {
+            javascript: 'console.log("Hello, World!");',
+            python: 'print("Hello, World!")',
+            java: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}',
+            cpp: '#include <iostream>\nint main() {\n    std::cout << "Hello, World!" << std::endl;\n    return 0;\n}',
+            html: "<h1>Hello World</h1>",
+          },
+          loop: {
+            javascript:
+              "for(let i = 1; i <= 5; i++) {\n    console.log(`Count: ${i}`);\n}",
+            python: 'for i in range(1, 6):\n    print(f"Count: {i}")',
+            java: 'public class Main {\n    public static void main(String[] args) {\n        for(int i = 1; i <= 5; i++) {\n            System.out.println("Count: " + i);\n        }\n    }\n}',
+            cpp: '#include <iostream>\nint main() {\n    for(int i = 1; i <= 5; i++) {\n        std::cout << "Count: " << i << std::endl;\n    }\n    return 0;\n}',
+          },
+          function: {
+            javascript:
+              "function add(a, b) {\n    return a + b;\n}\n\nconsole.log(add(5, 3));",
+            python: "def add(a, b):\n    return a + b\n\nprint(add(5, 3))",
+            java: "public class Main {\n    public static int add(int a, int b) {\n        return a + b;\n    }\n    \n    public static void main(String[] args) {\n        System.out.println(add(5, 3));\n    }\n}",
+            cpp: "#include <iostream>\nint add(int a, int b) {\n    return a + b;\n}\nint main() {\n    std::cout << add(5, 3) << std::endl;\n    return 0;\n}",
+          },
+          class: {
+            javascript:
+              'class Person {\n    constructor(name) {\n        this.name = name;\n    }\n    \n    greet() {\n        return `Hello, ${this.name}`;\n    }\n}\n\nconst p = new Person("John");\nconsole.log(p.greet());',
+            python:
+              'class Person:\n    def __init__(self, name):\n        self.name = name\n    \n    def greet(self):\n        return f"Hello, {self.name}"\n\np = Person("John")\nprint(p.greet())',
+            java: 'public class Main {\n    public static void main(String[] args) {\n        Person p = new Person("John");\n        System.out.println(p.greet());\n    }\n}\n\nclass Person {\n    private String name;\n    \n    public Person(String name) {\n        this.name = name;\n    }\n    \n    public String greet() {\n        return "Hello, " + name;\n    }\n}',
+            cpp: '#include <iostream>\n#include <string>\nusing namespace std;\n\nclass Person {\nprivate:\n    string name;\npublic:\n    Person(string n) : name(n) {}\n    \n    string greet() {\n        return "Hello, " + name;\n    }\n};\n\nint main() {\n    Person p("John");\n    cout << p.greet() << endl;\n    return 0;\n}',
+          },
+        };
+
+        // Mapeamento de linguagem para modo CodeMirror
+        const languageModes = {
+          javascript: "javascript",
+          python: "python",
+          java: "text/x-java",
+          cpp: "text/x-c++src",
+          html: "htmlmixed",
+        };
+
+        // Inicialização
+        document.addEventListener("DOMContentLoaded", function () {
+          console.log("📝 DOM carregado");
+          initializeEditor();
+          startClock();
+        });
+
+        function initializeEditor() {
+          const editorElement = document.getElementById("editor");
+          if (!editorElement) return;
+
+          editorElement.innerHTML = "";
+
+          editor = CodeMirror(editorElement, {
+            value: codeTemplates.javascript,
+            mode: "javascript",
+            theme: "dracula",
+            lineNumbers: true,
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            styleActiveLine: true,
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+            indentUnit: 4,
+            tabSize: 4,
+            lineWrapping: true,
+            autofocus: true,
+            inputStyle: "contenteditable",
+          });
+
+          console.log("✅ Editor criado");
+
+          setTimeout(() => editor.focus(), 100);
+
+          editor.setOption("extraKeys", {
+            "Ctrl-Enter": function (cm) {
+              runCode();
+            },
+            "Ctrl-S": function (cm) {
+              saveCode();
+              return false;
+            },
+            Tab: function (cm) {
+              cm.replaceSelection("    ");
+            },
+          });
+
+          // Atualizar estatísticas
+          editor.on("change", function () {
+            updateStats();
+          });
+
+          setupEventListeners();
+          updateLanguageBadge("javascript");
+          updateStats();
+        }
+
+        function updateStats() {
+          if (!editor) return;
+
+          const code = editor.getValue();
+          const lines = code.split("\n").length;
+          const chars = code.length;
+
+          document.getElementById("lineCount").innerHTML =
+            `<i class="fas fa-code"></i> ${lines} linhas`;
+          document.getElementById("charCount").innerHTML =
+            `<i class="fas fa-text-height"></i> ${chars} caracteres`;
+        }
+
+        function startClock() {
+          setInterval(() => {
+            const now = new Date();
+            document.getElementById("currentTime").textContent =
+              now.toLocaleTimeString();
+          }, 1000);
+        }
+
+        function setupEventListeners() {
+          // Language selector
+          document
+            .getElementById("language")
+            ?.addEventListener("change", function (e) {
+              currentLanguage = this.value;
+              if (editor) {
+                editor.setOption("mode", languageModes[currentLanguage]);
+                updateLanguageBadge(currentLanguage);
+
+                if (
+                  editor.getValue().trim() === "" &&
+                  codeTemplates[currentLanguage]
+                ) {
+                  editor.setValue(codeTemplates[currentLanguage]);
+                }
+              }
+            });
+
+          // Run button
+          document
+            .getElementById("runBtn")
+            ?.addEventListener("click", function (e) {
+              e.preventDefault();
+              runCode();
+            });
+
+          // Save button
+          document
+            .getElementById("saveBtn")
+            ?.addEventListener("click", function (e) {
+              e.preventDefault();
+              saveCode();
+            });
+
+          // Copy button (NOVO)
+          document
+            .getElementById("copyBtn")
+            ?.addEventListener("click", function (e) {
+              e.preventDefault();
+              copyCode();
+            });
+
+          // Clear button
+          document
+            .getElementById("clearBtn")
+            ?.addEventListener("click", function (e) {
+              e.preventDefault();
+              if (confirm("Limpar editor?")) {
+                editor.setValue("");
+              }
+            });
+
+          // Clear output button
+          document
+            .getElementById("clearOutputBtn")
+            ?.addEventListener("click", function (e) {
+              e.preventDefault();
+              clearOutput();
+            });
+
+          // Theme buttons
+          document.querySelectorAll(".theme-btn").forEach((btn) => {
+            btn.addEventListener("click", function (e) {
+              e.preventDefault();
+              const theme = this.dataset.theme;
+              editor.setOption("theme", theme);
+
+              document
+                .querySelectorAll(".theme-btn")
+                .forEach((b) => b.classList.remove("active"));
+              this.classList.add("active");
+            });
+          });
+
+          // Tab buttons
+          document.querySelectorAll(".tab-btn").forEach((btn) => {
+            btn.addEventListener("click", function (e) {
+              e.preventDefault();
+              const tab = this.dataset.tab;
+
+              document
+                .querySelectorAll(".tab-btn")
+                .forEach((b) => b.classList.remove("active"));
+              this.classList.add("active");
+
+              document
+                .getElementById("output")
+                .classList.toggle("hidden", tab !== "output");
+              document
+                .getElementById("console")
+                .classList.toggle("hidden", tab !== "console");
+            });
+          });
+
+          // Examples
+          document.querySelectorAll("#examplesList li").forEach((item) => {
+            item.addEventListener("click", function (e) {
+              e.preventDefault();
+              const example = this.dataset.example;
+              if (
+                example &&
+                examples[example] &&
+                examples[example][currentLanguage]
+              ) {
+                editor.setValue(examples[example][currentLanguage]);
+                showNotification(`📚 Exemplo carregado!`, "success");
+              }
+            });
+          });
+
+          // Electron menu events
+          if (isElectron && window.electronAPI) {
+            window.electronAPI.onRunCode(runCode);
+            window.electronAPI.onClearOutput(clearOutput);
+            window.electronAPI.onSaveFile(saveCode);
+            window.electronAPI.onNewFile(function () {
+              if (confirm("Novo arquivo?")) {
+                editor.setValue("");
+              }
+            });
+            window.electronAPI.onOpenFile(function (event, data) {
+              editor.setValue(data.content);
+              if (data.language) {
+                document.getElementById("language").value = data.language;
+                editor.setOption("mode", languageModes[data.language]);
+                updateLanguageBadge(data.language);
+              }
+            });
+          }
+        }
+
+        // NOVA FUNÇÃO: Copiar código
+        function copyCode() {
+          if (!editor) return;
+
+          const code = editor.getValue();
+          navigator.clipboard
+            .writeText(code)
+            .then(() => {
+              showNotification("📋 Código copiado!", "success");
+            })
+            .catch(() => {
+              showNotification("Erro ao copiar", "error");
+            });
+        }
+
+        async function runCode() {
+          if (!editor) return;
+
+          const code = editor.getValue();
+          const language = currentLanguage;
+
+          if (!code.trim()) {
+            showNotification("Digite algum código!", "warning");
+            return;
+          }
+
+          clearOutput();
+          appendToOutput(`🚀 Executando ${language}...\n`);
+
+          // JavaScript executa localmente
+          if (language === "javascript") {
+            try {
+              const originalLog = console.log;
+              let output = "";
+
+              console.log = function (...args) {
+                output +=
+                  args
+                    .map((arg) =>
+                      typeof arg === "object"
+                        ? JSON.stringify(arg, null, 2)
+                        : String(arg),
+                    )
+                    .join(" ") + "\n";
+              };
+
+              const result = eval(code);
+              console.log = originalLog;
+
+              if (result !== undefined) {
+                output += `\n➡ Return: ${JSON.stringify(result, null, 2)}`;
+              }
+
+              displayOutput(output || "✅ Executado com sucesso!");
+              appendToConsole(output);
+            } catch (error) {
+              displayError(error.message);
+            }
+            return;
+          }
+
+          // HTML executa localmente
+          if (language === "html") {
+            displayHTMLPreview(code);
+            return;
+          }
+
+          // Para Python, Java, C++ - usar backend
+          try {
+            const response = await fetch("http://localhost:3001/api/execute", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify({ code, language }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            if (result.success) {
+              if (result.type === "html") {
+                displayHTMLPreview(result.output);
+              } else {
+                displayOutput(result.output);
+                appendToConsole(result.output);
+              }
+            } else {
+              displayError(result.output);
+            }
+          } catch (error) {
+            displayError(
+              `❌ Erro de conexão com o backend!\n\nDetalhes: ${error.message}`,
+            );
+          }
+        }
+
+        // Funções de display (mantidas iguais)
+        function displayOutput(text) {
+          document.getElementById("output").innerHTML =
+            `<pre class="output-text">${escapeHTML(text)}</pre>`;
+        }
+
+        function displayHTMLPreview(html) {
+          document.getElementById("output").innerHTML = `
+                    <div style="width:100%; height:100%; background:white; border-radius:4px;">
+                        <iframe srcdoc="${escapeHTML(html)}" 
+                                width="100%" height="100%" 
+                                style="border:none; background:white;">
+                        </iframe>
+                    </div>
+                `;
+        }
+
+        function displayError(error) {
+          document.getElementById("output").innerHTML = `
+                    <div class="error-container">
+                        <i class="fas fa-exclamation-circle" style="color:#dc3545; font-size:24px;"></i>
+                        <pre class="error-message">${escapeHTML(error)}</pre>
+                    </div>
+                `;
+        }
+
+        function clearOutput() {
+          document.getElementById("output").innerHTML = `
+                    <div class="welcome-message">
+                        <i class="fas fa-terminal"></i>
+                        <p>Execute seu código para ver resultados</p>
+                    </div>
+                `;
+          document.getElementById("console").innerHTML = "";
+        }
+
+        function appendToOutput(text) {
+          const outputDiv = document.getElementById("output");
+          if (outputDiv && !outputDiv.querySelector(".welcome-message")) {
+            outputDiv.innerHTML += `<div>${escapeHTML(text)}</div>`;
+          }
+        }
+
+        function appendToConsole(text) {
+          const consoleDiv = document.getElementById("console");
+          if (consoleDiv) {
+            consoleDiv.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${escapeHTML(text)}</div>`;
+          }
+        }
+
+        function saveCode() {
+          if (!editor) return;
+
+          const code = editor.getValue();
+          const ext =
+            {
+              javascript: "js",
+              python: "py",
+              java: "java",
+              cpp: "cpp",
+              html: "html",
+            }[currentLanguage] || "txt";
+
+          if (isElectron && window.electronAPI) {
+            window.electronAPI
+              .saveFile({
+                content: code,
+                defaultPath: `codigo.${ext}`,
+              })
+              .then((result) => {
+                if (result.success) {
+                  showNotification("💾 Arquivo salvo!", "success");
+                }
+              });
+          } else {
+            const blob = new Blob([code], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `codigo.${ext}`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showNotification("💾 Download iniciado!", "success");
+          }
+        }
+
+        function showNotification(message, type = "info") {
+          const colors = {
+            success: "#28a745",
+            warning: "#ffc107",
+            error: "#dc3545",
+            info: "#007acc",
+          };
+
+          const notification = document.createElement("div");
+          notification.textContent = message;
+          notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 12px 24px;
+                    background: ${colors[type] || colors.info};
+                    color: white;
+                    border-radius: 5px;
+                    z-index: 9999;
+                    animation: slideIn 0.3s ease;
+                `;
+
+          document.body.appendChild(notification);
+          setTimeout(() => notification.remove(), 3000);
+        }
+
+        function escapeHTML(str) {
+          if (!str) return "";
+          return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+        }
+
+        function updateLanguageBadge(language) {
+          const badge = document.getElementById("currentLang");
+          const fileName = document.getElementById("fileName");
+
+          const names = {
+            javascript: "JavaScript",
+            python: "Python",
+            java: "Java",
+            cpp: "C++",
+            html: "HTML/CSS",
+          };
+
+          const extensions = {
+            javascript: "js",
+            python: "py",
+            java: "java",
+            cpp: "cpp",
+            html: "html",
+          };
+
+          if (badge) badge.textContent = names[language] || language;
+          if (fileName)
+            fileName.textContent = `script.${extensions[language] || "txt"}`;
+        }
+      })();
+    </script>
+  </body>
+</html>
