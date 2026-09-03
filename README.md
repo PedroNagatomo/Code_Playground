@@ -22,13 +22,6 @@
 
 ---
 
-## 📸 Demonstração
-
->  **Dica:** Adicione aqui um GIF ou screenshot do app em funcionamento.
-> `![Demo](./assets/demo.gif)`
-
----
-
 ##  Funcionalidades
 
 ###  Linguagens Suportadas
